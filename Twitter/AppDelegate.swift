@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import BDBOAuth1Manager
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -39,6 +40,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        print(url.description)
+        
+        let requestToken = BDBOAuth1Credential(queryString: url.query)
+        let twitterClient = BDBOAuth1SessionManager(baseURL: URL(string: "https://api.twitter.com")!, consumerKey: "19o1QKYaIxn8V3B8ghjq51W1i", consumerSecret: "cFiQ2MxMbKckJNo4qvrLfRR9nIP45iIIwcP1hUrkLLrFBCaWhp")
+        
+        
+        twitterClient?.fetchAccessToken(withPath: "oauth/access_token", method: "POST", requestToken: requestToken, success: { (accessToken: BDBOAuth1Credential?) in
+            
+            twitterClient?.get("1.1/account/verify_credentials.json", parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response : Any?) in
+                let userDictionary = response as! NSDictionary
+                print("\(userDictionary["screen_name"]!)")
+                
+                let user = User(dictionary: userDictionary)
+                
+                }, failure: { (task: URLSessionDataTask?, error:Error) in
+                    error.localizedDescription
+            })
+            
+            twitterClient?.get("1.1/statuses/home_timeline.json", parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+                let tweets = response as! [NSDictionary]
+                for tweet in tweets {
+                    print("\(tweet["text"]!)")
+                }
+                }, failure: { (task: URLSessionDataTask?, error: Error) in
+                        print(error.localizedDescription)
+            })
+            
+            }, failure: { (error: Error?) in
+                print(error?.localizedDescription)
+        })
+        
+        return true
     }
 
 
