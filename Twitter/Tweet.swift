@@ -31,14 +31,17 @@ class Tweet: NSObject {
         
     }
     
-//    class func TweetsFromArray(dictionaries: [NSDictionary]) -> [Tweet] {
-//        var tweets = [Tweet]()
-//        
-//        for dictionary in dictionaries {
-//            let tweet = Tweet(dictionary: dictionary)
-//        }
-//        
-//    }
-//    
+    class func TweetsFromArray(dictionaries: [NSDictionary]) -> [Tweet] {
+        var tweets = [Tweet]()
+        
+        for dictionary in dictionaries {
+            let tweet = Tweet(dictionary: dictionary)
+            tweets.append(tweet)
+        }
+        
+        return tweets
+        
+    }
+    
 
 }
