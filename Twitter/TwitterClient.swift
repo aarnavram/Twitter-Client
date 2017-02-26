@@ -11,6 +11,7 @@ import BDBOAuth1Manager
 
 class TwitterClient: BDBOAuth1SessionManager {
     
+    
     static let sharedInstance = TwitterClient(baseURL: URL(string: "https://api.twitter.com")!, consumerKey: "19o1QKYaIxn8V3B8ghjq51W1i", consumerSecret: "cFiQ2MxMbKckJNo4qvrLfRR9nIP45iIIwcP1hUrkLLrFBCaWhp")
     
     var loginSucess: (() -> ())?
@@ -27,13 +28,14 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
-    func verifyCredentials() {
+    func verifyCredentials(success: @escaping (User) -> (), failure: @escaping (Error) -> ()) {
         TwitterClient.sharedInstance?.get("1.1/account/verify_credentials.json", parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response : Any?) in
             let userDictionary = response as! NSDictionary
             let user = User(dictionary: userDictionary)
+            success(user)
             print(user.name!)
             }, failure: { (task: URLSessionDataTask?, error:Error) in
-                error.localizedDescription
+                failure(error)
         })
     }
     
@@ -57,10 +59,23 @@ class TwitterClient: BDBOAuth1SessionManager {
 
     }
     
+    func logout() {
+        User.currentUser = nil
+        deauthorize()
+        
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: User.userDidLogout), object: nil)
+    }
+    
     func handleOpenURL(url: URL) {
         let requestToken = BDBOAuth1Credential(queryString: url.query)
         fetchAccessToken(withPath: "oauth/access_token", method: "POST", requestToken: requestToken, success: { (accessToken: BDBOAuth1Credential?) in
-            self.loginSucess?()
+            
+            self.verifyCredentials(success: { (user: User) in
+                User.currentUser = user
+                self.loginSucess?()
+                }, failure: { (error: Error) in
+                    self.loginFailure?(error)
+            })
             
             }, failure: { (error: Error?) in
                 print(error?.localizedDescription)
