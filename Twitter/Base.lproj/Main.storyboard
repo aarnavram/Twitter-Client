@@ -83,6 +83,11 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m4a-wh-Qbr">
                                                     <state key="normal" image="retweet-icon"/>
                                                 </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rN9-ul-XmJ">
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="1Ws-c5-GvO" firstAttribute="leading" secondItem="ky9-oM-M2D" secondAttribute="leadingMargin" id="4my-SN-ktf"/>
@@ -93,17 +98,21 @@
                                                 <constraint firstAttribute="trailingMargin" secondItem="Zre-RC-iMT" secondAttribute="trailing" constant="4" id="XxR-ke-gNH"/>
                                                 <constraint firstItem="1Ws-c5-GvO" firstAttribute="leading" secondItem="ky9-oM-M2D" secondAttribute="leadingMargin" id="ZJZ-6u-YbK"/>
                                                 <constraint firstItem="1Ws-c5-GvO" firstAttribute="top" secondItem="ky9-oM-M2D" secondAttribute="topMargin" id="cdU-Da-EON"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="rN9-ul-XmJ" secondAttribute="trailing" constant="4" id="d9g-lI-ve1"/>
+                                                <constraint firstItem="rN9-ul-XmJ" firstAttribute="top" secondItem="ky9-oM-M2D" secondAttribute="topMargin" id="erC-Iv-ifn"/>
                                                 <constraint firstItem="0Ti-pI-J30" firstAttribute="leading" secondItem="1Ws-c5-GvO" secondAttribute="trailing" constant="8" id="hW6-j3-riI"/>
+                                                <constraint firstItem="rN9-ul-XmJ" firstAttribute="leading" secondItem="1Ws-c5-GvO" secondAttribute="trailing" constant="8" id="j20-zS-P9H"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="Zre-RC-iMT" secondAttribute="bottom" constant="4" id="nKy-ol-X4Y"/>
                                                 <constraint firstItem="Zre-RC-iMT" firstAttribute="top" secondItem="0Ti-pI-J30" secondAttribute="bottom" constant="4" id="pD9-cT-blo"/>
                                                 <constraint firstItem="Zre-RC-iMT" firstAttribute="top" secondItem="m4a-wh-Qbr" secondAttribute="top" id="pDo-LI-YHH"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="0Ti-pI-J30" secondAttribute="trailing" constant="2" id="xgc-zf-aa5"/>
-                                                <constraint firstItem="0Ti-pI-J30" firstAttribute="top" secondItem="ky9-oM-M2D" secondAttribute="topMargin" id="yzn-mJ-o58"/>
+                                                <constraint firstItem="0Ti-pI-J30" firstAttribute="top" secondItem="ky9-oM-M2D" secondAttribute="topMargin" constant="20" id="yzn-mJ-o58"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="avatarImageView" destination="1Ws-c5-GvO" id="gaq-pF-hxW"/>
                                             <outlet property="tweetLabel" destination="0Ti-pI-J30" id="FJq-Pe-bfk"/>
+                                            <outlet property="userLabel" destination="rN9-ul-XmJ" id="nka-FV-lqK"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

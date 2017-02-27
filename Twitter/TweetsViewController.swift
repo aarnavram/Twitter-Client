@@ -82,6 +82,8 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
             print("pos1 \(imageURL)")
             let newImageURL = imageURL.replacingOccurrences(of: "_normal", with: "")
             cell.avatarImageView.setImageWith(URL(string: newImageURL)!)
+            
+            cell.userLabel.text = tweets![indexPath.row].user
         }        
         return cell
     }
