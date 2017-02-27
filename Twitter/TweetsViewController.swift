@@ -12,13 +12,15 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
 
     @IBOutlet weak var tableView: UITableView!
     var tweets: [Tweet]?
+    let refreshControl = UIRefreshControl()
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
-
+        refreshControl.addTarget(self, action: #selector(refreshControlAction(refreshControl:)), for: .valueChanged)
+        tableView.insertSubview(refreshControl, at: 0)
         TwitterClient.sharedInstance?.homeTimeline(success: { (tweets: [Tweet]) in
             self.tweets = tweets
             self.tableView.reloadData()
@@ -51,6 +53,21 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         // Dispose of any resources that can be recreated.
     }
     
+    func refreshControlAction(refreshControl: UIRefreshControl) {
+        TwitterClient.sharedInstance?.homeTimeline(success: { (tweets: [Tweet]) in
+            self.tweets = tweets
+            self.tableView.reloadData()
+            
+            for tweet in tweets {
+                print(tweet)
+            }
+            }, failure: { (error: Error) in
+                print(error.localizedDescription)
+        })
+        refreshControl.endRefreshing()
+
+    }
+    
     @IBAction func onLogoutPressed(_ sender: AnyObject) {
         TwitterClient.sharedInstance?.logout()
     }
@@ -79,11 +96,12 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         cell.tweetLabel.text = tweets![indexPath.row].text
 
         if let imageURL = tweets![indexPath.row].imageURL {
-            print("pos1 \(imageURL)")
+            //print("pos1 \(imageURL)")
             let newImageURL = imageURL.replacingOccurrences(of: "_normal", with: "")
             cell.avatarImageView.setImageWith(URL(string: newImageURL)!)
             
             cell.userLabel.text = tweets![indexPath.row].user
+            print(tweets![indexPath.row].timestamp)
         }        
         return cell
     }

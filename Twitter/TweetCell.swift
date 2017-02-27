@@ -10,11 +10,17 @@ import UIKit
 
 class TweetCell: UITableViewCell {
 
+    @IBOutlet weak var retweetButton: UIButton!
+    
+    @IBOutlet weak var favButton: UIButton!
+    
+    
     @IBOutlet weak var tweetLabel: UILabel!
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var userLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
+        retweetButton.addTarget(self, action: #selector(TweetCell.onRetweetPressed), for: .touchUpInside)
 
 
     }
@@ -23,6 +29,14 @@ class TweetCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    func onRetweetPressed() {
+        retweetButton.imageView?.image = UIImage(named: "retweet-icon-green.png")
+    }
+    
+    func onFavouritePressed() {
+        favButton.imageView?.image = UIImage(named: "favor-icon-red")
     }
 
 }

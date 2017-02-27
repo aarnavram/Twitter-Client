@@ -111,6 +111,8 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="avatarImageView" destination="1Ws-c5-GvO" id="gaq-pF-hxW"/>
+                                            <outlet property="favButton" destination="Zre-RC-iMT" id="9b0-IM-nEg"/>
+                                            <outlet property="retweetButton" destination="m4a-wh-Qbr" id="UwJ-HD-esT"/>
                                             <outlet property="tweetLabel" destination="0Ti-pI-J30" id="FJq-Pe-bfk"/>
                                             <outlet property="userLabel" destination="rN9-ul-XmJ" id="nka-FV-lqK"/>
                                         </connections>
