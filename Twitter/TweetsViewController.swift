@@ -104,7 +104,8 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
             //print(tweets![indexPath.row].timestamp)
             
             print(TwitterClient.sharedInstance?.getTweet(id: cell.tweet.id!, success: { (dictionary: NSDictionary) in
-                print(dictionary)
+                let count = dictionary["favorite_count"] as! Int
+                cell.favLabel.text = "\(count)"
             }, failure: { (error: Error) in
                 print(error.localizedDescription)
             }))

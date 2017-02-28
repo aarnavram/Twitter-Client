@@ -29,9 +29,19 @@ class Tweet: NSObject {
         retweeted = dictionary["retweeted"] as! Bool
         favourited = dictionary["retweeted"] as! Bool
         retweetCount = (dictionary["retweet_count"] as? Int) ?? 0
-        favouriteCount = (userDictionary["favorite_count"] as? Int) ?? 0
+  //      favouriteCount = (userDictionary["favorite_count"] as? Int) ?? 0
 //        favouriteCount = (dictionary["favourites_count"] as? Int) ?? 0
         
+        
+        var favCount = 3
+        TwitterClient.sharedInstance?.getTweet(id: id!, success: { (dict: NSDictionary) in
+            favCount = dict["favorite_count"] as! Int
+            print("This is \(favCount)")
+        }, failure: { (error: Error) in
+            print(error.localizedDescription)
+        })
+        
+        self.favouriteCount = favCount
         let timeStampString = dictionary["created_at"] as? String
         
         if let timeStampString = timeStampString {
