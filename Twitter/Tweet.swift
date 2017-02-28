@@ -27,13 +27,13 @@ class Tweet: NSObject {
         user = userDictionary["name"] as? String
         id = dictionary["id_str"] as? String
         retweeted = dictionary["retweeted"] as! Bool
-        favourited = dictionary["retweeted"] as! Bool
+        favourited = dictionary["favorited"] as! Bool
         retweetCount = (dictionary["retweet_count"] as? Int) ?? 0
   //      favouriteCount = (userDictionary["favorite_count"] as? Int) ?? 0
 //        favouriteCount = (dictionary["favourites_count"] as? Int) ?? 0
         
         
-        var favCount = 3
+        var favCount = 0
         TwitterClient.sharedInstance?.getTweet(id: id!, success: { (dict: NSDictionary) in
             favCount = dict["favorite_count"] as! Int
             print("This is \(favCount)")

@@ -13,6 +13,8 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var retweetButton: UIButton!
     @IBOutlet weak var favButton: UIButton!
 
+    @IBOutlet weak var favImgView: UIImageView!
+
     @IBOutlet weak var tweetLabel: UILabel!
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var userLabel: UILabel!
@@ -22,14 +24,19 @@ class TweetCell: UITableViewCell {
     
     var tweet: Tweet! {
         didSet {
-            if tweet.retweeted == true {
-                favButton.setImage(UIImage(named: "fav-icon"), for: .normal)
+            if tweet.favourited == true {
+                self.favImgView.image = UIImage(named: "favor-icon-red")
+                self.favButton.setImage(UIImage(named: "favor-icon-red"), for: .normal)
             } else {
-                favButton.setImage(UIImage(named: "fav-icon-red"), for: .normal)
+                self.favImgView.image = UIImage(named: "favor-icon")
+                self.favButton.setImage(UIImage(named: "favor-icon"), for: .normal)
+
             }
             
             if tweet.retweeted == true {
                 self.retweetButton.setImage(UIImage(named: "retweet-icon-green"), for: .normal)
+                //self.favImgView.image = UIImage(named: "retweet-icon")
+
             } else {
                 self.retweetButton.setImage(UIImage(named: "retweet-icon"), for: .normal)
             }
@@ -76,8 +83,15 @@ class TweetCell: UITableViewCell {
         let tweetID = tweet?.id
         if tweet.favourited == false {
             TwitterClient.sharedInstance?.favorite(id: tweetID!, success: { () in
-                //self.favLabel.text = "\(tweet.favouriteCount)"
-                self.favButton.setImage(UIImage(named: "fav-icon-red"), for: .normal)
+               // self.favLabel.text = "\(self.tweet.favouriteCount)"
+                self.favButton.setImage(UIImage(named: "favor-icon-red"), for: .normal)
+            }, failure: { (error: Error) in
+                print(error.localizedDescription)
+            })
+            
+            TwitterClient.sharedInstance?.getTweet(id: tweetID!, success: { (dictionary: NSDictionary) in
+                let count = dictionary["favorite_count"] as! Int
+                self.favLabel.text = "\(count)"
             }, failure: { (error: Error) in
                 print(error.localizedDescription)
             })

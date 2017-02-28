@@ -109,6 +109,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
             }, failure: { (error: Error) in
                 print(error.localizedDescription)
             }))
+            print(cell.tweet.timestamp)
         }
         
         return cell

@@ -108,9 +108,9 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wNT-cP-fFG">
-                                                    <rect key="frame" x="258" y="55" width="30" height="30"/>
-                                                    <state key="normal" image="retweet-icon"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cPJ-OU-c3H">
+                                                    <rect key="frame" x="325" y="55" width="30" height="30"/>
+                                                    <state key="normal" image="favor-icon"/>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -119,7 +119,6 @@
                                                 <constraint firstItem="m4a-wh-Qbr" firstAttribute="leading" secondItem="1Ws-c5-GvO" secondAttribute="trailing" constant="8" id="6Jg-Hv-aYo"/>
                                                 <constraint firstItem="1Ws-c5-GvO" firstAttribute="top" secondItem="ky9-oM-M2D" secondAttribute="topMargin" id="6Rn-RR-kis"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="m4a-wh-Qbr" secondAttribute="bottom" constant="4" id="7Kc-f1-pLd"/>
-                                                <constraint firstItem="YkD-EH-dIk" firstAttribute="leading" secondItem="wNT-cP-fFG" secondAttribute="trailing" constant="4" id="BW8-q8-qZ8"/>
                                                 <constraint firstItem="YkD-EH-dIk" firstAttribute="top" secondItem="CGr-2b-Q25" secondAttribute="top" id="Ljj-hQ-Nvc"/>
                                                 <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="1Ws-c5-GvO" secondAttribute="bottom" constant="4" id="PV4-qh-Iwi"/>
                                                 <constraint firstItem="1Ws-c5-GvO" firstAttribute="leading" secondItem="ky9-oM-M2D" secondAttribute="leadingMargin" id="ZJZ-6u-YbK"/>
@@ -133,15 +132,16 @@
                                                 <constraint firstItem="CGr-2b-Q25" firstAttribute="top" secondItem="m4a-wh-Qbr" secondAttribute="top" constant="4" id="kGb-Rq-8LE"/>
                                                 <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="CGr-2b-Q25" secondAttribute="bottom" constant="4" id="nhU-5D-Hvg"/>
                                                 <constraint firstItem="m4a-wh-Qbr" firstAttribute="top" secondItem="0Ti-pI-J30" secondAttribute="bottom" constant="4" id="pXx-1n-tuG"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="wNT-cP-fFG" secondAttribute="bottom" constant="6.5" id="piP-kS-Xs9"/>
                                                 <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="m4a-wh-Qbr" secondAttribute="bottom" constant="4" id="pjQ-Uk-Lyf"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="cPJ-OU-c3H" secondAttribute="bottom" constant="6.5" id="rxx-gb-h7i"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="cPJ-OU-c3H" secondAttribute="trailing" constant="12" id="sUL-QZ-ORX"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="0Ti-pI-J30" secondAttribute="trailing" constant="2" id="xgc-zf-aa5"/>
                                                 <constraint firstItem="0Ti-pI-J30" firstAttribute="top" secondItem="ky9-oM-M2D" secondAttribute="topMargin" constant="20" id="yzn-mJ-o58"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="avatarImageView" destination="1Ws-c5-GvO" id="gaq-pF-hxW"/>
-                                            <outlet property="favButton" destination="wNT-cP-fFG" id="Qk1-kd-sQz"/>
+                                            <outlet property="favButton" destination="cPJ-OU-c3H" id="wD8-bd-mCh"/>
                                             <outlet property="favLabel" destination="YkD-EH-dIk" id="rvm-fw-UZH"/>
                                             <outlet property="retweetButton" destination="m4a-wh-Qbr" id="UwJ-HD-esT"/>
                                             <outlet property="retweetLabel" destination="CGr-2b-Q25" id="y6H-r1-0lt"/>
@@ -189,6 +189,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="favor-icon" width="30" height="30"/>
         <image name="retweet-icon" width="30" height="30"/>
     </resources>
 </document>
