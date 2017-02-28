@@ -39,6 +39,17 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
+    
+    
+    func getTweet(id: String, success: @escaping (NSDictionary) -> (), failure: @escaping (Error) -> ()) {
+        TwitterClient.sharedInstance?.get("1.1/statuses/show/\(id).json", parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response : Any?) in
+            let dictionary = response as! NSDictionary
+            success(dictionary)
+        }, failure: { (task: URLSessionDataTask?, error:Error) in
+            failure(error)
+        })
+    }
+    
     func login(success: @escaping () -> (), failure: @escaping (Error) -> ()) {
         loginSucess = success
         loginFailure = failure
@@ -58,6 +69,37 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
 
     }
+    
+    func retweet(id: String, success: @escaping (Tweet) -> (), faliure: @escaping (Error) -> ()) {
+        post("1.1/statuses/retweet/\(id).json", parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            let response = response as! NSDictionary
+            let tweet = Tweet.init(dictionary: response)
+            success(tweet)
+            
+        }) { (task: URLSessionDataTask?, error: Error) in
+            faliure(error)
+        }
+    }
+    
+//    func favorite(id: String, success: @escaping (Tweet) -> (), faliure: @escaping (Error) -> ()) {
+//        post("1.1/favorites/create.json", parameters: ["id": id], progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+//            let response = response as! NSDictionary
+//            let tweet = Tweet.init(dictionary: response)
+//            success(tweet)
+//            
+//        }) { (task: URLSessionDataTask?, error: Error) in
+//            faliure(error)
+//        }
+//    }
+//    
+    func favorite(id: String, success: @escaping () -> (), failure: @escaping (Error) -> ()) {
+        self.post("https://api.twitter.com/1.1/favorites/create.json?id=\(id)", parameters: nil, progress: nil, success: { (task, response) in
+            success()
+        }) { (task, error) in
+            failure(error)
+        }
+    }
+
     
     func logout() {
         User.currentUser = nil

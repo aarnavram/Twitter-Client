@@ -97,6 +97,14 @@
 			name = API;
 			sourceTree = "<group>";
 		};
+		A0593F861E6406C400EDC278 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A0AA00511E5A80B200693A42 /* Main.storyboard */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		A0AA00411E5A80B200693A42 = {
 			isa = PBXGroup;
 			children = (
@@ -118,11 +126,11 @@
 		A0AA004C1E5A80B200693A42 /* Twitter */ = {
 			isa = PBXGroup;
 			children = (
+				A0593F861E6406C400EDC278 /* Views */,
 				A01120FC1E5E123F003DB35E /* API */,
 				A00F5F1D1E5D460A009413CC /* View Controllers */,
 				A00F5F1E1E5D4618009413CC /* Model */,
 				A0AA004D1E5A80B200693A42 /* AppDelegate.swift */,
-				A0AA00511E5A80B200693A42 /* Main.storyboard */,
 				A0AA00541E5A80B200693A42 /* Assets.xcassets */,
 				A0AA00561E5A80B200693A42 /* LaunchScreen.storyboard */,
 				A0AA00591E5A80B200693A42 /* Info.plist */,

@@ -11,7 +11,7 @@ import UIKit
 class TweetsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
-    var tweets: [Tweet]?
+    static var tweets: [Tweet]?
     let refreshControl = UIRefreshControl()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,11 +22,11 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         refreshControl.addTarget(self, action: #selector(refreshControlAction(refreshControl:)), for: .valueChanged)
         tableView.insertSubview(refreshControl, at: 0)
         TwitterClient.sharedInstance?.homeTimeline(success: { (tweets: [Tweet]) in
-            self.tweets = tweets
+            TweetsViewController.tweets = tweets
             self.tableView.reloadData()
 
             for tweet in tweets {
-                print(tweet)
+                //print(tweet)
             }
             }, failure: { (error: Error) in
                 print(error.localizedDescription)
@@ -37,11 +37,11 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     
     override func viewDidAppear(_ animated: Bool) {
         TwitterClient.sharedInstance?.homeTimeline(success: { (tweets: [Tweet]) in
-            self.tweets = tweets
+            TweetsViewController.tweets = tweets
             self.tableView.reloadData()
             
             for tweet in tweets {
-                print(tweet.imageURL)
+                //print(tweet.imageURL)
             }
             }, failure: { (error: Error) in
                 print(error.localizedDescription)
@@ -55,7 +55,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     
     func refreshControlAction(refreshControl: UIRefreshControl) {
         TwitterClient.sharedInstance?.homeTimeline(success: { (tweets: [Tweet]) in
-            self.tweets = tweets
+            TweetsViewController.tweets = tweets
             self.tableView.reloadData()
             
             for tweet in tweets {
@@ -71,6 +71,8 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     @IBAction func onLogoutPressed(_ sender: AnyObject) {
         TwitterClient.sharedInstance?.logout()
     }
+    
+
 
     /*
     // MARK: - Navigation
@@ -83,7 +85,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     */
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let tweets = self.tweets {
+        if let tweets = TweetsViewController.tweets {
             return tweets.count
         } else {
             return 0
@@ -92,17 +94,22 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tweetCell", for: indexPath) as! TweetCell
+        cell.tweetLabel.text = TweetsViewController.tweets![indexPath.row].text
+        cell.tweet = TweetsViewController.tweets![indexPath.row]
         
-        cell.tweetLabel.text = tweets![indexPath.row].text
-
-        if let imageURL = tweets![indexPath.row].imageURL {
-            //print("pos1 \(imageURL)")
+        if let imageURL = TweetsViewController.tweets![indexPath.row].imageURL {
             let newImageURL = imageURL.replacingOccurrences(of: "_normal", with: "")
             cell.avatarImageView.setImageWith(URL(string: newImageURL)!)
+            cell.userLabel.text = TweetsViewController.tweets![indexPath.row].user
+            //print(tweets![indexPath.row].timestamp)
             
-            cell.userLabel.text = tweets![indexPath.row].user
-            print(tweets![indexPath.row].timestamp)
-        }        
+            print(TwitterClient.sharedInstance?.getTweet(id: cell.tweet.id!, success: { (dictionary: NSDictionary) in
+                print(dictionary)
+            }, failure: { (error: Error) in
+                print(error.localizedDescription)
+            }))
+        }
+        
         return cell
     }
 
