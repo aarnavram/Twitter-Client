@@ -25,10 +25,10 @@ class TweetCell: UITableViewCell {
     var tweet: Tweet! {
         didSet {
             if tweet.favourited == true {
-                self.favImgView.image = UIImage(named: "favor-icon-red")
+                //self.favImgView.image = UIImage(named: "favor-icon-red")
                 self.favButton.setImage(UIImage(named: "favor-icon-red"), for: .normal)
             } else {
-                self.favImgView.image = UIImage(named: "favor-icon")
+                //self.favImgView.image = UIImage(named: "favor-icon")
                 self.favButton.setImage(UIImage(named: "favor-icon"), for: .normal)
 
             }
@@ -91,7 +91,7 @@ class TweetCell: UITableViewCell {
             
             TwitterClient.sharedInstance?.getTweet(id: tweetID!, success: { (dictionary: NSDictionary) in
                 let count = dictionary["favorite_count"] as! Int
-                self.favLabel.text = "\(count)"
+                self.favLabel.text = "\(count + 1)"
             }, failure: { (error: Error) in
                 print(error.localizedDescription)
             })
