@@ -338,9 +338,17 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="140 left" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cWC-kM-hsw">
+                                <rect key="frame" x="309" y="72" width="58" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.37691072269999998" green="0.42869371480000001" blue="0.57376656179999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="cWC-kM-hsw" secondAttribute="trailing" constant="8" id="Fjn-SQ-jLk"/>
+                            <constraint firstItem="cWC-kM-hsw" firstAttribute="top" secondItem="9tu-ju-KWM" secondAttribute="bottom" constant="8" id="YdT-TR-3oy"/>
                             <constraint firstItem="Y0D-pD-Mjv" firstAttribute="leading" secondItem="unf-Ne-GcF" secondAttribute="leadingMargin" id="Yw7-2I-6er"/>
                             <constraint firstItem="Y0D-pD-Mjv" firstAttribute="top" secondItem="9tu-ju-KWM" secondAttribute="bottom" constant="8" id="tH8-EP-9Ck"/>
                         </constraints>
@@ -358,6 +366,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="charLabel" destination="cWC-kM-hsw" id="jTx-DL-rzd"/>
                         <outlet property="tweeTextView" destination="Y0D-pD-Mjv" id="Ll9-wc-9LC"/>
                     </connections>
                 </viewController>

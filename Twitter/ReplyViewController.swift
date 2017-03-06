@@ -14,6 +14,7 @@ class ReplyViewController: UIViewController, UITextViewDelegate {
     
     var userName:String?
     
+    @IBOutlet weak var charLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         tweeTextView.delegate = self
@@ -32,6 +33,11 @@ class ReplyViewController: UIViewController, UITextViewDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        self.charLabel.text = "\(140 - tweeTextView.text.lengthOfBytes(using: .ascii)) left"
+        print(tweeTextView.text.lengthOfBytes(using: .ascii))
     }
 
     @IBAction func onCancelPressed(_ sender: Any) {
