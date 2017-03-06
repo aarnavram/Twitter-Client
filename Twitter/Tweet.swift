@@ -29,6 +29,8 @@ class Tweet: NSObject {
         retweeted = dictionary["retweeted"] as! Bool
         favourited = dictionary["favorited"] as! Bool
         retweetCount = (dictionary["retweet_count"] as? Int) ?? 0
+        favouriteCount = (dictionary["favorite_count"] as? Int) ?? 1
+
   //      favouriteCount = (userDictionary["favorite_count"] as? Int) ?? 0
 //        favouriteCount = (dictionary["favourites_count"] as? Int) ?? 0
         
@@ -41,7 +43,6 @@ class Tweet: NSObject {
             print(error.localizedDescription)
         })
         
-        self.favouriteCount = favCount
         let timeStampString = dictionary["created_at"] as? String
         
         if let timeStampString = timeStampString {
@@ -59,6 +60,7 @@ class Tweet: NSObject {
         for dictionary in dictionaries {
             let tweet = Tweet(dictionary: dictionary)
             tweets.append(tweet)
+            
         }
         
         return tweets

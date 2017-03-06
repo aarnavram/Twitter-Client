@@ -15,6 +15,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     let refreshControl = UIRefreshControl()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.estimatedRowHeight = 100
@@ -39,7 +40,6 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         TwitterClient.sharedInstance?.homeTimeline(success: { (tweets: [Tweet]) in
             TweetsViewController.tweets = tweets
             self.tableView.reloadData()
-            
             for tweet in tweets {
                 //print(tweet.imageURL)
             }
@@ -52,6 +52,13 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+//    @IBAction func imageViewPressed(_ sender: Any) {
+//        let senderView = sender as! UIImageView
+//        let tweet = TweetsViewController.tweets![senderView.tag] as! Tweet
+//        print("tweet")
+//    }
+    
     
     func refreshControlAction(refreshControl: UIRefreshControl) {
         TwitterClient.sharedInstance?.homeTimeline(success: { (tweets: [Tweet]) in
@@ -94,25 +101,68 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tweetCell", for: indexPath) as! TweetCell
+        cell.selectionStyle = UITableViewCellSelectionStyle.none
         cell.tweetLabel.text = TweetsViewController.tweets![indexPath.row].text
         cell.tweet = TweetsViewController.tweets![indexPath.row]
-        
+        cell.indexPathRow = indexPath.row
         if let imageURL = TweetsViewController.tweets![indexPath.row].imageURL {
             let newImageURL = imageURL.replacingOccurrences(of: "_normal", with: "")
             cell.avatarImageView.setImageWith(URL(string: newImageURL)!)
             cell.userLabel.text = TweetsViewController.tweets![indexPath.row].user
-            //print(tweets![indexPath.row].timestamp)
             
-            print(TwitterClient.sharedInstance?.getTweet(id: cell.tweet.id!, success: { (dictionary: NSDictionary) in
-                let count = dictionary["favorite_count"] as! Int
-                cell.favLabel.text = "\(count)"
-            }, failure: { (error: Error) in
-                print(error.localizedDescription)
-            }))
+            cell.avatarImageView.tag = indexPath.row
+
+
+            if cell.tweet.favourited == true {
+                //self.favImgView.image = UIImage(named: "favor-icon-red")
+                cell.favButton.setImage(UIImage(named: "favor-icon-red"), for: .normal)
+            } else {
+                //self.favImgView.image = UIImage(named: "favor-icon")
+                cell.favButton.setImage(UIImage(named: "favor-icon"), for: .normal)
+                
+            }
+            
+            if cell.tweet.retweeted == true {
+                cell.retweetButton.setImage(UIImage(named: "retweet-icon-green"), for: .normal)
+                //self.favImgView.image = UIImage(named: "retweet-icon")
+                
+            } else {
+                cell.retweetButton.setImage(UIImage(named: "retweet-icon"), for: .normal)
+            }
+
+
             print(cell.tweet.timestamp)
         }
         
         return cell
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "detail" {
+            
+            let senderCell = sender as! TweetCell
+            
+            
+            let destination = segue.destination as! DetailsViewController
+            let indexPath = tableView.indexPath(for: senderCell)
+            print(indexPath)
+            destination.tweet = TweetsViewController.tweets?[indexPath!.row as! Int]
+            destination.indexPath = indexPath!.row
+            destination.ImageName = senderCell.tweet.imageURL
+        }
+        if segue.identifier == "currentuser" {
+            let destination = segue.destination as! ProfileViewController
+            destination.backImageURL = User.currentUser?.dictionary!["profile_banner_url"] as! String
+            destination.avatarImageURL = (User.currentUser?.dictionary!["profile_image_url_https"] as! String).replacingOccurrences(of: "_normal", with: "")
+            
+            destination.followersText = User.currentUser!.dictionary!["followers_count"] as! Int
+            destination.followingText = User.currentUser!.dictionary!["friends_count"] as! Int
+            destination.tweetsText = User.currentUser!.dictionary!["statuses_count"] as! Int
+
+
+            print(User.currentUser!.dictionary!)
+            //print(User.currentUser!.dictionary!["followers_count"] as? String)
+        }
     }
 
 }
