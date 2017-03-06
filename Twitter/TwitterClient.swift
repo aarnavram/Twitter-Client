@@ -50,6 +50,8 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
+
+    
     func login(success: @escaping () -> (), failure: @escaping (Error) -> ()) {
         loginSucess = success
         loginFailure = failure
@@ -110,6 +112,15 @@ class TwitterClient: BDBOAuth1SessionManager {
         }) { (task: URLSessionDataTask?, error:Error) in
             print(error.localizedDescription)
         }
+    }
+    
+    func getUser(id:String, success: @escaping (NSDictionary) -> (), failure: @escaping (Error) -> ()) {
+        TwitterClient.sharedInstance?.get("1.1/users/show.json?screen_name=\(id)", parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            let dictionary = response as! NSDictionary
+            success(dictionary)
+        }, failure: { (task: URLSessionDataTask?, error: Error) in
+            print(error.localizedDescription)
+        })
     }
 
     

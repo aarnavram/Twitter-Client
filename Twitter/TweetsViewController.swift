@@ -13,6 +13,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var tableView: UITableView!
     static var tweets: [Tweet]?
     let refreshControl = UIRefreshControl()
+    var profileTweet:NSDictionary!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,7 +28,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
             self.tableView.reloadData()
 
             for tweet in tweets {
-                //print(tweet)
+                print(tweet)
             }
             }, failure: { (error: Error) in
                 print(error.localizedDescription)
@@ -59,6 +60,19 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
 //        print("tweet")
 //    }
     
+    @IBAction func avatarButton(_ sender: Any) {
+        let senderCell = sender as! UIButton
+        let tweet = TweetsViewController.tweets?[senderCell.tag]
+        print((tweet?.screen_name!)!)
+        TwitterClient.sharedInstance?.getUser(id: (tweet?.screen_name!)!, success: { (response: NSDictionary) in
+            self.profileTweet = response
+            self.performSegue(withIdentifier: "profile", sender: sender)
+            print(response)
+        }, failure: { (error: Error) in
+            print(error.localizedDescription)
+        })
+        print("hello")
+    }
     
     func refreshControlAction(refreshControl: UIRefreshControl) {
         TwitterClient.sharedInstance?.homeTimeline(success: { (tweets: [Tweet]) in
@@ -110,6 +124,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
             cell.avatarImageView.setImageWith(URL(string: newImageURL)!)
             cell.userLabel.text = TweetsViewController.tweets![indexPath.row].user
             
+            cell.avatarButton.tag = indexPath.row
             cell.avatarImageView.tag = indexPath.row
 
 
@@ -131,7 +146,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
             }
 
 
-            print(cell.tweet.timestamp)
+            print(cell.tweet)
         }
         
         return cell
@@ -162,6 +177,18 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
 
             print(User.currentUser!.dictionary!)
             //print(User.currentUser!.dictionary!["followers_count"] as? String)
+        }
+        if segue.identifier == "profile" {
+            let destination = segue.destination as! ProfileViewController
+            if let url = self.profileTweet["profile_banner_url"] as? String {
+                destination.backImageURL = self.profileTweet["profile_banner_url"] as! String
+
+            }
+            destination.avatarImageURL = (self.profileTweet["profile_image_url_https"] as! String).replacingOccurrences(of: "_normal", with: "")
+            
+            destination.followersText = self.profileTweet["followers_count"] as! Int
+            destination.followingText = self.profileTweet["friends_count"] as! Int
+            destination.tweetsText = self.profileTweet["statuses_count"] as! Int
         }
     }
 
